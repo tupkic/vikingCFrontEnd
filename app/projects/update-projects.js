@@ -5,7 +5,7 @@ $(document).ready(function(){
         var id = $(this).attr('data-id');
 
         $.ajax({
-            url: "http://127.0.0.1:8001/api/projects/"+id+"",
+            url: api_url + "/projects/"+id+"",
             contentType : 'application/json',
             headers: {"Authorization": "Bearer " + localStorage.getItem('token')},
             success : function(data) {
@@ -14,7 +14,7 @@ $(document).ready(function(){
                 var update_product_html="";
 
                 // when clicked, it will show the product's list
-                update_product_html+="<div id='read-products' class='btn btn-primary pull-right m-b-15px read-products-button'>";
+                update_product_html+="<div id='read-projects' class='btn btn-primary pull-right m-b-15px read-projects-button'>";
                 update_product_html+="<span class='glyphicon glyphicon-list'></span> Read projects";
                 update_product_html+="</div>";
 
@@ -66,7 +66,7 @@ $(document).ready(function(){
 
         // submit form data to api
         $.ajax({
-            url: "http://127.0.0.1:8001/api/projects/"+id+"",
+            url: api_url + "/projects/"+id+"",
             type : "PATCH",
             contentType : 'application/json',
             headers: {"Authorization": "Bearer " + localStorage.getItem('token')},
@@ -76,6 +76,7 @@ $(document).ready(function(){
             },
             error: function(xhr, resp, text) {
                 console.log(xhr, resp, text);
+                bootbox.alert(xhr.responseJSON);
             }
         });
 

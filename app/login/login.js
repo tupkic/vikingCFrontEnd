@@ -1,9 +1,3 @@
-// when a 'read products' button was clicked
-$(document).on('click', '.read-login-button', function(){
-    // show list of products
-    showLoginPage();
-});
-
 function showLoginPage(){
     let form = '<form id="login-form">'+
         '  <div class="form-group">'+
@@ -23,11 +17,12 @@ function showLoginPage(){
         '</form>';
     // inject to app
     $("#page-content").html(form);
+    changePageTitle("Login");
 }
 
 
 // will run if create product form was submitted
-$(document).on('click', '#login-form', function(){
+$(document).on('submit', '#login-form', function(){
 
     // get form data
     var form_data= JSON.stringify($(this).serializeObject());
@@ -40,7 +35,9 @@ $(document).on('click', '#login-form', function(){
         data : form_data,
         success : function(data) {
             let user_token = data.token;
+            let user = data.user;
             localStorage.setItem('token', user_token);
+            localStorage.setItem('user', JSON.stringify(user));
             location.reload();
         },
         error: function(xhr, resp, text) {
@@ -61,6 +58,7 @@ $(document).on('click', '.read-logout-button', function(){
         headers: {"Authorization": "Bearer " + localStorage.getItem('token')},
         success : function(data) {
             localStorage.removeItem('token');
+            localStorage.removeItem('user');
             location.reload();
         },
         error: function(xhr, resp, text) {

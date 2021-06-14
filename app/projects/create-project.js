@@ -6,7 +6,7 @@ $(document).ready(function(){
             var create_project_html="";
 
             // when clicked, it will show the product's list
-            create_project_html+="<div id='read-projects' class='btn btn-primary pull-right m-b-15px read-products-button'>";
+            create_project_html+="<div id='read-projects' class='btn btn-primary pull-right m-b-15px read-projects-button'>";
                 create_project_html+="<span class='glyphicon glyphicon-list'></span> Read Projects";
             create_project_html+="</div>";
 
@@ -51,7 +51,7 @@ $(document).ready(function(){
 
         // submit form data to api
         $.ajax({
-            url: "http://127.0.0.1:8001/api/projects",
+            url: api_url + "/projects",
             type : "POST",
             contentType : 'application/json',
             headers: {"Authorization": "Bearer " + localStorage.getItem('token')},
@@ -61,6 +61,7 @@ $(document).ready(function(){
             },
             error: function(xhr, resp, text) {
                 console.log(xhr, resp, text);
+                bootbox.alert(xhr.responseJSON);
             }
         });
 

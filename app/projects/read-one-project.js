@@ -5,7 +5,7 @@ $(document).ready(function(){
         var id = $(this).attr('data-id');
 
         $.ajax({
-            url: "http://127.0.0.1:8001/api/projects/"+id+"",
+            url: api_url + "/projects/"+id+"",
             contentType : 'application/json',
             headers: {"Authorization": "Bearer " + localStorage.getItem('token')},
             success : function(data) {
@@ -13,9 +13,23 @@ $(document).ready(function(){
                 var read_one_project_html="";
 
                 // when clicked, it will show the product's list
-                read_one_project_html+="<div id='read-products' class='btn btn-primary pull-right m-b-15px read-products-button'>";
+                read_one_project_html+="<div id='read-projects' class='btn btn-primary pull-right m-b-15px read-projects-button'>";
                 read_one_project_html+="<span class='glyphicon glyphicon-list'></span> Read project";
                 read_one_project_html+="</div>";
+
+                // edit button
+                if (logged_user.is_admin == 1 || logged_user.id == project.user_id) {
+                    read_one_project_html += "<button class='btn btn-info edit-btn m-r-10px update-project-button' data-id='" + data.project[0].id + "'>";
+                    read_one_project_html += "<span class='glyphicon glyphicon-edit'></span> Edit";
+                    read_one_project_html += "</button>";
+                }
+
+                // delete button
+                if (logged_user.is_admin == 1 || logged_user.id == project.user_id) {
+                    read_one_project_html += "<button class='btn btn-danger delete-project-button' data-id='" + data.project[0].id + "'>";
+                    read_one_project_html += "<span class='glyphicon glyphicon-remove'></span> Delete";
+                    read_one_project_html += "</button>";
+                }
 
                 // product data will be shown in this table
                 read_one_project_html+="<table class='table table-bordered table-hover'>";
@@ -32,7 +46,7 @@ $(document).ready(function(){
 
                 read_one_project_html+="<tr>";
                 read_one_project_html+="<td>Created by</td>";
-                read_one_project_html+="<td>" + data.project[0].user.name + "</td>";
+                read_one_project_html+="<td>" + data.project[0].user.email + "</td>";
                 read_one_project_html+="</tr>";
 
                 read_one_project_html+="</table>";
@@ -46,6 +60,7 @@ $(document).ready(function(){
             },
             error: function(xhr, resp, text) {
                 console.log(xhr, resp, text);
+                bootbox.alert(xhr.responseJSON);
             }
         });
 

@@ -1,10 +1,10 @@
 $(document).ready(function(){
 
     // will run if the delete button was clicked
-    $(document).on('click', '.delete-project-button', function(){
+    $(document).on('click', '.delete-user-button', function(){
 
         // get the id
-		var project_id = $(this).attr('data-id');
+		let user_id = $(this).attr('data-id');
 
         // bootbox for good looking 'confirm pop up'
         bootbox.confirm({
@@ -25,12 +25,12 @@ $(document).ready(function(){
 		        if(result==true){
 
                     $.ajax({
-                        url: api_url + "/projects/"+project_id+"",
+                        url: api_url + "/users/"+user_id+"",
                         type : "DELETE", //
                         contentType : 'application/json',
                         headers: {"Authorization": "Bearer " + localStorage.getItem('token')},
                         success : function(result) {
-                            showProjectsFirstPage();
+                            showUsersFirstPage();
                         },
                         error: function(xhr, resp, text) {
                             console.log(xhr, resp, text);

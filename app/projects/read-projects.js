@@ -5,7 +5,7 @@ $(document).ready(function(){
         showProjectsFirstPage();
     }
     // when a 'read project' button was clicked
-    $(document).on('click', '.read-products-button', function(){
+    $(document).on('click', '.read-projects-button', function(){
         // show list of products
         showProjectsFirstPage();
     });
@@ -23,7 +23,7 @@ function showProjects(){
     $("#projects-nav").addClass("active");
 
     $.ajax({
-        url: "http://127.0.0.1:8001/api/projects",
+        url: api_url + "/projects",
         contentType : 'application/json',
         headers: {"Authorization": "Bearer " + localStorage.getItem('token')},
         success : function(data) {
@@ -32,6 +32,14 @@ function showProjects(){
         },
         error: function(xhr, resp, text) {
             console.log(xhr, resp, text);
+            bootbox.alert(xhr.responseJSON);
+
+            let read_projects_html = "<div id='create-projects' class='btn btn-primary pull-right m-b-15px create-project-button'>";
+            read_projects_html += "<span class='glyphicon glyphicon-plus'></span> Create project";
+            read_projects_html += "</div>";
+
+            $("#page-content").html(read_projects_html);
+
         }
     });
 }
